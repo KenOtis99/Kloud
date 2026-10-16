@@ -1,0 +1,17 @@
+[Unit]
+Description=Photo Gallery (self-hosted iPhotos-style viewer)
+After=network.target mnt-backup.mount
+
+[Service]
+Type=simple
+User=otisk
+WorkingDirectory=/opt/photo-gallery
+Environment=PHOTOS_ROOT=/mnt/backup/mobile/iphone-photos
+Environment=CACHE_DIR=/opt/photo-gallery/cache
+Environment=PORT=8080
+ExecStart=/opt/photo-gallery/venv/bin/waitress-serve --host=0.0.0.0 --port=8080 --threads=4 app:app
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
